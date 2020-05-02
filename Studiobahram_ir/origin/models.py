@@ -21,7 +21,7 @@ class Instruction(models.Model):
     title = models.CharField(max_length=400,name="Instruction Title")
     pub_date = models.DateField()
     instruction_text = models.TextField(help_text="Writeing text Instruction ...",name="Instruction Text")
-    youtube_url = models.URLField(name="YOUTUBE URL")
+    youtube_url = models.URLField(name="Youtube url")
     
     def __str__(self):
         return self.title
