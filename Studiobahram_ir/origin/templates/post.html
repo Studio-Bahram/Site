@@ -1,0 +1,20 @@
+{% comment %} {% load static %} {% endcomment %}
+<!DOCTYPE html>
+<html>
+    <body>
+        {% if post %}
+            <div class="post">
+                <h2>{{ post.title }}</h2>
+                {% if post.picture.url != "/media/posts/pics/%25Y/%25m/%25d/img.jpg" %}
+                    <img src={{ post.picture.url }}>
+                {% endif %}
+                <p class="about-text">{{ post.about_post }}</p>
+                <a class="github link" href={{ post.github_url }}>github</a>
+                <br /><h3>{{ post.pub_date }}</h3>
+                <p>{{ post_id }}</p><p>{{ post.tag }}</p>
+            </div>
+        {% else %}
+            <h1 class="no-posts">No Post are available</h1>
+        {% endif %}
+    </body>
+</html>
