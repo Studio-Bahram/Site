@@ -11,6 +11,7 @@ class Post(models.Model):
     file_post = models.FileField(upload_to="posts/files/%Y/%m/%d/",default="posts/files/%Y/%m/%d/file")
     about_post = models.TextField(help_text="Writeing about post ...")
     github_url = models.URLField(max_length=300,default="https://github.com/")
+    tag = models.SlugField(unique=True)
     
     def __str__(self):
         return self.title
@@ -27,11 +28,3 @@ class Instruction(models.Model):
         return self.title
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
-
-
-
-
-    
-
-
-    
