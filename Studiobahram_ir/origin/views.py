@@ -4,10 +4,33 @@ from django.template import loader
 
 from .models import Post, Instruction
 
-def post(request, post_id):
-    return HttpResponse("You're looking at question %s." % post_id)
+def post_id(request, post_id):
+    try:
+        if post_id > 0:
+            post_filter_by_id = Post.objects.all()
+            this_post = post_filter_by_id[post_id-1]
+            context = {"post":this_post,"post_id":post_id}
+            template = loader.get_template('post.html')
+            return HttpResponse(template.render(context, request))
+        else:
+            return HttpResponse("404")
+    except IndexError:
+        return HttpResponse("404")
+    except Exception as err:
+        return HttpResponse(str(err))
 
-
+def post_tag(request, post_tag):
+    try:
+        post_filter_by_tag = Post.objects.filter(tag=post_tag)
+        this_post = post_filter_by_tag[0]
+        context = {"post":this_post,"post_tag":post_tag}
+        template = loader.get_template('post.html')
+        return HttpResponse(template.render(context, request))
+    except IndexError:
+        return HttpResponse("404")
+    except Exception as err:
+        return HttpResponse(str(err))
+    
 
 '''
 def index(request):
