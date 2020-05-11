@@ -16,7 +16,9 @@ def post_api(request):
     if "token" in post_vs:
         token = request.POST["token"]
         if token == "1234":
-            return JsonResponse({"!":"@"})
+            new_post = Post.objects.order_by('-pub_date')[:1]
+            context = {"new_post": "1"}
+            return JsonResponse(context,encoder=JSONEncoder)
         else:
             return JsonResponse({"error":"not match token"})
     else:
