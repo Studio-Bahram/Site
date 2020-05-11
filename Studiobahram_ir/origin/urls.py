@@ -5,14 +5,11 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('<int:post_id>/', views.post_id, name='post_id'),
-    path('<str:post_tag>/', views.post_tag, name='post_tag'),
+    path('api/', views.post_api, name='post_api'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 '''
-
-
 urlpatterns = [
     path('', views.index, name='index'),
     path('index.html', views.index, name='index'),
@@ -27,5 +24,5 @@ urlpatterns = [
     # ex: /polls/5/vote/
     path('<int:question_id>/vote/', views.vote, name='vote'),
     
-] 
+]
 '''

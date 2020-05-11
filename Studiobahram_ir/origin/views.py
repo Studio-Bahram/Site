@@ -2,34 +2,40 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 
-from .models import Post, Instruction
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from json import JSONEncoder
+from django.views.decorators.http import require_POST
 
-def post_id(request, post_id):
-    try:
-        if post_id > 0:
-            post_filter_by_id = Post.objects.all()
-            this_post = post_filter_by_id[post_id-1]
-            context = {"post":this_post,"post_id":post_id}
-            template = loader.get_template('post.html')
-            return HttpResponse(template.render(context, request))
+from .models import Post
+
+@csrf_exempt
+@require_POST
+def post_api(request):
+    post_vs = request.POST.keys()
+    if "token" in post_vs:
+        token = request.POST["token"]
+        if token == "1234":
+            return JsonResponse({"!":"@"})
         else:
-            return HttpResponse("404")
-    except IndexError:
-        return HttpResponse("404")
-    except Exception as err:
-        return HttpResponse(str(err))
+            return JsonResponse({"error":"not match token"})
+    else:
+        return JsonResponse({"error":"pls send token"})
 
-def post_tag(request, post_tag):
-    try:
-        post_filter_by_tag = Post.objects.filter(tag=post_tag)
-        this_post = post_filter_by_tag[0]
-        context = {"post":this_post,"post_tag":post_tag}
-        template = loader.get_template('post.html')
-        return HttpResponse(template.render(context, request))
-    except IndexError:
-        return HttpResponse("404")
-    except Exception as err:
-        return HttpResponse(str(err))
+'''
+this_user = get_object_or_404(User, token__token=this_token)
+'''
+# def post_tag(request, post_tag):
+#     try:
+#         post_filter_by_tag = Post.objects.filter(tag=post_tag)
+#         this_post = post_filter_by_tag[0]
+#         context = {"post":this_post,"post_tag":post_tag}
+#         template = loader.get_template('post.html')
+#         return HttpResponse(template.render(context, request))
+#     except IndexError:
+#         return HttpResponse("404")
+#     except Exception as err:
+#         return HttpResponse(str(err))
     
 
 '''
